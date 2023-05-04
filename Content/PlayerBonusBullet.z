@@ -1,0 +1,185 @@
+class PlayerBonusBullet : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    [Property]
+    var Cooldown : Real = 0.20;
+    var TimeSinceLastSpawn : Real = 0.20;
+    var TripleShotActive : Boolean = false;
+    var Timer : Integer = 0;
+    
+    //[Property]
+    //var WeaponType : Integer = 1;
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Console.WriteLine(this.DataCog.SavedData.PlayerGunID);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this. TimeSinceLastSpawn += event.Dt;
+        
+        if(Zero.Keyboard.KeyIsDown(Keys.Space))
+        {
+            if (this.TimeSinceLastSpawn > this.Cooldown)
+            {
+            var spawnPosition = this.Owner.Transform.Translation;
+            var spawnPosition2 = this.Owner.Transform.Translation;
+            var spawnPosition3 = this.Owner.Transform.Translation;
+            var spawnPosition4 = this.Owner.Transform.Translation;
+            var archetypeToSpawn = Archetype.PlayerBonus;
+            
+            if (this.DataCog.SavedData.BonusGunID == 6)
+            {
+            //ORIGUNNI for Paper Plane
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 5.25;
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,10,0);
+            }
+            
+            if (this.DataCog.SavedData.BonusGunID == 1)
+            //VULCAN CANNON for Old Reliable
+            {
+            this.Cooldown = 0.125;
+            spawnPosition += Real3 (0.25,0,0);
+            spawnPosition2 += Real3 (-0.25,0,0);
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,10,0);
+            createdPlayerBullet.Transform.Scale = Real3 (0.25, 0.25, 1);
+            createdPlayerBullet.Sprite.Color = Real4 (0.9, 0.15, 0, 1);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 0.90;
+            var createdPlayerBullet2 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            createdPlayerBullet2.RigidBody.Velocity = Real3(0,10,0);
+            createdPlayerBullet2.Transform.Scale = Real3 (0.25, 0.25, 1);
+            createdPlayerBullet2.Sprite.Color = Real4 (0.9, 0.15, 0, 1);
+            createdPlayerBullet2.PlayerBulletBehavior.DamageDealt = 0.90;
+        }
+            
+            if (this.DataCog.SavedData.BonusGunID == 3)
+            //PROTON LASER for Futura
+            {
+            this.Cooldown = 0.08;
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.Sprite.Color = Real4 (1, 0, 0, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,10,0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 0.75;
+            }
+            
+            if (this.DataCog.SavedData.BonusGunID == 5)
+            //RAILGUN for Flashpoint MK17
+            {
+            this.Cooldown = 3.5;
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdPlayerBullet2 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdPlayerBullet3 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdPlayerBullet4 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdPlayerBullet5 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.Sprite.Color = Real4 (1, 0.1, 1, 1);
+            createdPlayerBullet2.Sprite.Color = Real4 (1, 0.2, 1, 1);
+            createdPlayerBullet3.Sprite.Color = Real4 (1, 0.3, 1, 1);
+            createdPlayerBullet4.Sprite.Color = Real4 (1, 0.4, 1, 1);
+            createdPlayerBullet5.Sprite.Color = Real4 (1, 0.5, 1, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,20,0);
+            createdPlayerBullet2.RigidBody.Velocity = Real3(0,19,0);
+            createdPlayerBullet3.RigidBody.Velocity = Real3(0,18,0);
+            createdPlayerBullet4.RigidBody.Velocity = Real3(0,17,0);
+            createdPlayerBullet5.RigidBody.Velocity = Real3(0,16,0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 4.75;
+            createdPlayerBullet2.PlayerBulletBehavior.DamageDealt = 4.75;
+            createdPlayerBullet3.PlayerBulletBehavior.DamageDealt = 4.75;
+            createdPlayerBullet4.PlayerBulletBehavior.DamageDealt = 4.75;
+            createdPlayerBullet5.PlayerBulletBehavior.DamageDealt = 4.75;
+            }
+            
+            if (this.DataCog.SavedData.BonusGunID == 2)
+            //FLAK GUN for Blade
+            {
+            this.Cooldown = 0.25;
+            spawnPosition += Real3 (0.25,0,0);
+            spawnPosition2 += Real3 (-0.25,0,0);
+            spawnPosition3 += Real3 (0.5,0,0);
+            spawnPosition4 += Real3 (-0.5,0,0);
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdPlayerBullet2 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            var createdPlayerBullet3 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition3);
+            var createdPlayerBullet4 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition4);
+            createdPlayerBullet.Sprite.Color = Real4 (0, 0.3, 1, 1);
+            createdPlayerBullet2.Sprite.Color = Real4 (0, 0.3, 1, 1);
+            createdPlayerBullet3.Sprite.Color = Real4 (0, 0.3, 1, 1);
+            createdPlayerBullet4.Sprite.Color = Real4 (0, 0.3, 1, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(2,4,0);
+            createdPlayerBullet2.RigidBody.Velocity = Real3(1,4,0);
+            createdPlayerBullet3.RigidBody.Velocity = Real3(-1,4,0);
+            createdPlayerBullet4.RigidBody.Velocity = Real3(-2,4,0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 0.75;
+            createdPlayerBullet2.PlayerBulletBehavior.DamageDealt = 0.50;
+            createdPlayerBullet3.PlayerBulletBehavior.DamageDealt = 0.75;
+            createdPlayerBullet4.PlayerBulletBehavior.DamageDealt = 0.50;
+            createdPlayerBullet.Transform.Scale = Real3 (0.4375, 0.4375, 1);
+            createdPlayerBullet2.Transform.Scale = Real3 (0.4375, 0.4375, 1);
+            createdPlayerBullet3.Transform.Scale = Real3 (0.4375, 0.4375, 1);
+            createdPlayerBullet4.Transform.Scale = Real3 (0.4375, 0.4375, 1);
+            }
+            
+            if (this.DataCog.SavedData.BonusGunID == 4)
+            //BIO BLASTER for Cricket 6
+            {
+            this.Cooldown = 0.4;
+            spawnPosition += Real3 (0.35,0,0);
+            spawnPosition2 += Real3 (-0.35,0,0);
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.Sprite.Color = Real4 (0, 110, 255, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,15,0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 3.75;
+            var createdPlayerBullet2 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            createdPlayerBullet2.Sprite.Color = Real4 (0, 110, 255, 1);
+            createdPlayerBullet2.PlayerBulletBehavior.DamageDealt = 3.75;
+            createdPlayerBullet2.RigidBody.Velocity = Real3(0,15,0);
+            }
+            
+            if(this.DataCog.SavedData.BonusGunID == 7)
+            //TRI SHOT for Classic
+            {
+            this.Cooldown = 0.20;
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0, 10, 0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 5;
+            createdPlayerBullet.Sprite.Color = Real4 (1, 0, 0, 1);
+            var createdPlayerBullet2 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet2.PlayerBulletBehavior.DamageDealt = 5;
+            var createdPlayerBullet3 = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet3.PlayerBulletBehavior.DamageDealt = 5;
+            createdPlayerBullet2.RigidBody.Velocity = Real3(2,10,0);
+            createdPlayerBullet2.Sprite.Color = Real4 (1, 0, 0, 1);
+            createdPlayerBullet3.RigidBody.Velocity = Real3(-2,10,0);
+            createdPlayerBullet3.Sprite.Color = Real4 (1, 0, 0, 1);
+            }
+            
+            if(this.DataCog.SavedData.BonusGunID == 8)
+            //DESTROYER as Shop weapon
+            {
+            this.Cooldown = 1.5;
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.Transform.Scale = Real3 (2, 2, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0, 5, 0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 10;
+            createdPlayerBullet.Sprite.Color = Real4 (0.5, 0, 0, 1);
+            }
+            if(this.DataCog.SavedData.BonusGunID == 9)
+            //DEATH RAY as Shop weapon
+            {
+            this.Cooldown = 0.055;
+            var createdPlayerBullet = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdPlayerBullet.Sprite.Color = Real4 (1, 0.2, 0, 1);
+            createdPlayerBullet.RigidBody.Velocity = Real3(0,12,0);
+            createdPlayerBullet.PlayerBulletBehavior.DamageDealt = 0.5;
+            createdPlayerBullet.Transform.Scale = Real3 (1.03, 1.03, 1);
+            }
+            this.TimeSinceLastSpawn = 0.0;
+            }
+        }
+}
+}

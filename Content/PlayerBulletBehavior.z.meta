@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "PlayerBulletBehavior",
+		uint64 ResourceId = 57c94ae9e35c2b6e,
+	},
+},

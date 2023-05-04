@@ -1,0 +1,33 @@
+class PickupLogic : ZilchComponent
+{
+    
+    var SpawnPosition: Real3 = Real3(0.0, 11, 0.0);
+    var Timer: Integer = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.Owner.Name == "LevelSettings")
+        {
+            this.Timer += 1;
+            if (this.Timer > this.Owner.RandomContext.DieRoll(5000)-300+700)
+            {
+                this.SpawnPosition.X = this.Owner.RandomContext.DieRoll(18)-this.Owner.RandomContext.DieRoll(18);
+                this.Timer = 0;
+                this.Space.CreateAtPosition (Archetype.Pickup, this.SpawnPosition);
+            }
+        }
+    }
+    function OnCollisionStarted(event : CollisionEvent)
+    {
+        if (event.OtherObject.Name == "Player")
+        {
+        this.Owner.Destroy();
+        }
+    }
+}

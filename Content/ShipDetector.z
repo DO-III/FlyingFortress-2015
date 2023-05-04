@@ -1,0 +1,69 @@
+class ShipDetector : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    
+    [Property]
+    var PlaneBip: SpriteSource = null;
+    
+    [Property]
+    var PlaneBlade: SpriteSource = null;
+    
+    [Property]
+    var ShipRocket: SpriteSource = null;
+    
+    [Property]
+    var ShipBio: SpriteSource = null;
+    
+    [Property]
+    var ShipPlasma: SpriteSource = null;
+    
+    [Property]
+    var PlanePaper: SpriteSource = null;
+    
+    [Property]
+    var ShipClassic: SpriteSource = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+        Zero.Connect(this.Owner, Events.MouseUp, this.OnMouseUp);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlaneBip;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlaneBlade;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+            this.Owner.Sprite.SpriteSource = this.ShipRocket;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+            this.Owner.Sprite.SpriteSource = this.ShipBio;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+            this.Owner.Sprite.SpriteSource = this.ShipPlasma;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+            this.Owner.Sprite.SpriteSource = this.PlanePaper;
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+            this.Owner.Sprite.SpriteSource = this.ShipClassic;
+        }
+    }
+    function OnMouseUp(event:ViewportMouseEvent)
+    {
+        this.Space.LoadLevel (Level.Find("Round2"));
+    }
+}

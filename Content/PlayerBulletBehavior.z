@@ -1,0 +1,15 @@
+class PlayerBulletBehavior : ZilchComponent
+{
+    
+    [Property]
+    var DamageDealt : Real = (1);
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+    }
+
+    function OnCollisionStarted (event:CollisionEvent)
+    {
+    }
+}

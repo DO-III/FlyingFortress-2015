@@ -1,0 +1,48 @@
+class TheEnd : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    var Player: Cog = null;
+    var Boss: Cog = null;
+    var Timer: Integer = 0;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.Player = this.Space.FindObjectByName("Player");
+        this.Boss = this.Space.FindObjectByName("Boss");
+        this.Owner.SpriteText.Visible = false;
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (true)
+        { 
+            this.Timer += 1;
+        }
+        if(this.Player == null)
+        {
+            this.Owner.SpriteText.Text = "GAME OVER";
+            this.Owner.SpriteText.Visible = true;
+            if(this.Timer >= 300)
+            {
+             this.Space.LoadLevel (Level.Find("TitleScreen"));
+            }
+        }
+        if(this.Boss == null)
+        {
+            this.Owner.SpriteText.Text = "YOU WIN!";
+            this.Owner.SpriteText.Visible = true;
+            Zero.ObjectStore.Store ("Data", this.DataCog);
+            if(this.Timer >= 299)
+            {
+                this.DataCog.SavedData.PointsToSpend += 100;
+            }
+            if(this.Timer >= 300)
+            {
+                this.Space.LoadLevel (Level.Find("Shop"));
+            }
+        }
+    }
+}
