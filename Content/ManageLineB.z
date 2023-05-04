@@ -1,0 +1,42 @@
+class ManageLineB : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+        this.Owner.SpriteText.Text = "You defeated two bosses!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+        this.Owner.SpriteText.Text = "You completed the game!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+        this.Owner.SpriteText.Text = "You won! Again!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+        this.Owner.SpriteText.Text = "You finished the game!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+        this.Owner.SpriteText.Text = "You succeded!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+        this.Owner.SpriteText.Text = "You somehow did it!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+        this.Owner.SpriteText.Text = "YOU RE BIG WIN!";
+        }
+    }
+}

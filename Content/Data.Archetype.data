@@ -1,0 +1,19 @@
+Cog = 
+{
+	LinkId = 
+	{
+		uint Id = 1,
+	},
+	Named = 
+	{
+		string Name = "SavedData",
+	},
+	Archetyped = 
+	{
+		string Name = "573fe2ea3fea22ce:Data",
+	},
+	SavedData = 
+	{
+		int PlayerShipNumber = 0,
+	},
+},

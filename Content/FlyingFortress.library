@@ -1,0 +1,7 @@
+ContentLibrary = 
+{
+	string Name = "FlyingFortress",
+	uint64 LibraryId = 57c3c95e32586a54,
+	string SourceControlType = "",
+	bool ReadOnly = false,
+},

@@ -1,0 +1,94 @@
+class BossScript : ZilchComponent
+{
+    var PaceSpeed: Real = 8.0;
+    var Health: Real= (150);
+    var MaxMoveDistance: Real = 15;
+    var ServoDirection: Real3 = Real3(1.0, 0.0, 0.0);
+    var StartPosition: Real3 = Real3();
+    var BossType: Integer = 0;
+    
+    [Dependency]
+    var Transform: Transform = null;
+    
+    var Timer: Integer = 0;
+    
+    [Property]
+    var BossA: SpriteSource = null;
+    [Property]
+    var BossB: SpriteSource = null;
+    [Property]
+    var BossC: SpriteSource = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.StartPosition = this.Owner.Transform.Translation;
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        this.BossType = this.Owner.RandomContext.DieRoll(3);
+        
+        if (this.BossType == 1)
+        {
+            this.Owner.Sprite.SpriteSource = this.BossA;
+            this.Health = 175;
+            this.Owner.BoxCollider.Size = Real3(1.0,1.0,1.0);
+        }
+        if (this.BossType == 2)
+        {
+            this.Owner.Sprite.SpriteSource = this.BossB;
+            this.Health = 150;
+            this.Owner.BoxCollider.Size = Real3(0.9,0.8,1.0);
+        }
+        if (this.BossType == 3)
+        {
+            this.Owner.Sprite.SpriteSource = this.BossC;
+            this.Health = 125;
+            this.Owner.BoxCollider.Size = Real3(0.9,0.8,1.0);
+        }
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.Servo(event);
+        if (this.Health <= 0)
+        { 
+            this.Timer += 1;
+        }
+    }
+    
+    function Servo(event: UpdateEvent)
+    {
+        var displacement = this.Owner.Transform.Translation - this.StartPosition;
+        var distanceFromStart = Math.Length(displacement);
+        
+        if (distanceFromStart >= this.MaxMoveDistance)
+        {
+            this.ServoDirection = -displacement;
+        }
+        this.ServoDirection = Math.Normalize(this.ServoDirection);
+        this.Owner.Transform.Translation += this.ServoDirection * event.Dt *this.PaceSpeed;
+    }
+    function OnCollisionStarted (event:CollisionEvent)
+    {
+        if (event.OtherObject.Name == "PlayerBullet")
+        {
+            this.Health -= event.OtherObject.PlayerBulletBehavior.DamageDealt;
+            this.Space.FindObjectByName("ItsAllOverNow").TheEnd.Timer = 0;
+            event.OtherObject.Destroy();
+            Console.WriteLine(this.Health);
+        }
+        if (this.Health <= 0)
+        {
+            if (this.Timer <= 100)
+            {
+            this.Owner.BoxParticleEmitter.Active = true;
+            }
+            if(this.Timer >= 100)
+            {
+                this.Owner.BoxParticleEmitter.Active = false;
+                this.Owner.Destroy();
+                Console.WriteLine("You win. Now go play outside.");
+            }
+            
+        }
+    }
+}

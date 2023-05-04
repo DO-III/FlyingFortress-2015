@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "ManageLineE",
+		uint64 ResourceId = 573531cb56d78ffb,
+	},
+},

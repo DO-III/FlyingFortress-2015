@@ -1,0 +1,90 @@
+class BossScript2 : ZilchComponent
+{
+    var PaceSpeed: Real = 8.0;
+    var Health: Real= (150);
+    var MaxMoveDistance: Real = 15;
+    var ServoDirection: Real3 = Real3(1.0, 0.0, 0.0);
+    var StartPosition: Real3 = Real3();
+    var BossType: Integer = 0;
+    
+    [Dependency]
+    var Transform: Transform = null;
+    
+    var Timer: Integer = 0;
+    
+    [Property]
+    var BossA: SpriteSource = null;
+    [Property]
+    var BossB: SpriteSource = null;
+    [Property]
+    var BossC: SpriteSource = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.StartPosition = this.Owner.Transform.Translation;
+        Zero.Connect(this.Owner, Events.CollisionStarted, this.OnCollisionStarted);
+        this.BossType = this.Owner.RandomContext.DieRoll(2);
+        
+        if (this.BossType == 1)
+        {
+            this.Owner.Sprite.SpriteSource = this.BossA;
+            this.Health = 250;
+            this.PaceSpeed = 5.5;
+            this.Owner.BoxCollider.Size = Real3(2.0,0.7,1.0);
+        }
+        if (this.BossType == 2)
+        {
+            this.Owner.Sprite.SpriteSource = this.BossB;
+            this.Health = 225;
+            this.Owner.BoxCollider.Size = Real3(2.0,0.7,1.0);
+        }
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this.Servo(event);
+        if (this.Health <= 0)
+        { 
+            this.Timer += 1;
+        }
+    }
+    
+    function Servo(event: UpdateEvent)
+    {
+        var displacement = this.Owner.Transform.Translation - this.StartPosition;
+        var distanceFromStart = Math.Length(displacement);
+        
+        if (distanceFromStart >= this.MaxMoveDistance)
+        {
+            this.ServoDirection = -displacement;
+        }
+        this.ServoDirection = Math.Normalize(this.ServoDirection);
+        this.Owner.Transform.Translation += this.ServoDirection * event.Dt *this.PaceSpeed;
+    }
+    function OnCollisionStarted (event:CollisionEvent)
+    {
+        if (event.OtherObject.Name == "PlayerBullet"||event.OtherObject.Name == "PlayerBonus")
+        {
+            this.Health -= event.OtherObject.PlayerBulletBehavior.DamageDealt;
+            this.Space.FindObjectByName("ItsAllOverNow").TheOtherEnd.Timer = 0;
+            event.OtherObject.Destroy();
+            Console.WriteLine(this.Health);
+        }
+        if (this.Health <= 0)
+        {
+            if (this.Timer <= 100)
+            {
+            this.Owner.BoxParticleEmitter.Active = true;
+            }
+            if(this.Timer >= 100)
+            {
+                this.Owner.BoxParticleEmitter.Active = false;
+                this.Owner.Destroy();
+                Console.WriteLine("You win. Now go play outside.");
+            }
+            
+        }
+    }
+}
+

@@ -1,0 +1,55 @@
+class GunModLogic : ZilchComponent
+{
+    var DataCog: Cog = null;
+   
+    [Property]
+    var ModDamage: SpriteSource = null;
+    
+    [Property]
+    var ModRapid: SpriteSource = null;
+    
+    [Property]
+    var ModUltra: SpriteSource = null;
+    
+    [Property]
+    var ModBurst: SpriteSource = null;
+    
+    
+    var SelectedMod: Integer = 0;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+        Zero.Connect(this.Owner, Events.MouseUp, this.OnMouseUp);
+        Console.WriteLine(this.DataCog.SavedData.PlayerShipNumber);
+        Console.WriteLine(this.DataCog.SavedData.PlayerGunID);
+        this.SelectedMod = this.Owner.RandomContext.DieRoll(4);
+        if(this.SelectedMod == 1)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModDamage;
+        }
+        if(this.SelectedMod == 2)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModRapid;
+        }
+        if(this.SelectedMod == 3)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModUltra;
+        }
+        if(this.SelectedMod == 4)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModBurst;
+        }
+    }
+    function OnMouseUp(event:ViewportMouseEvent)
+    {
+        
+        this.DataCog.SavedData.GunModID = this.SelectedMod;
+        this.DataCog.SavedData.PointsToSpend -= 100;
+        Zero.ObjectStore.Store ("Data", this.DataCog);
+        Console.WriteLine(this.DataCog.SavedData.PlayerShipNumber);
+        Console.WriteLine(this.DataCog.SavedData.PlayerGunID);
+        this.Space.LoadLevel (Level.Find("Round2"));
+    }
+}

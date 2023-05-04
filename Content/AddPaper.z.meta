@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "AddPaper",
+		uint64 ResourceId = 573803ae4902e7b7,
+	},
+},

@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "AddPlasma",
+		uint64 ResourceId = 57380337221538f0,
+	},
+},

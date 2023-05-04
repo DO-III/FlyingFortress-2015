@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "AddBio",
+		uint64 ResourceId = 57380210150649e4,
+	},
+},

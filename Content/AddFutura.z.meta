@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "AddFutura",
+		uint64 ResourceId = 57381e2355b0ceb3,
+	},
+},

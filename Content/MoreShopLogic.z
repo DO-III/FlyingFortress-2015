@@ -1,0 +1,104 @@
+class MoreShopLogic : ZilchComponent
+{
+    var DataCog: Cog = null;
+   
+    [Property]
+    var ModDamage: SpriteSource = null;
+    
+    [Property]
+    var ModRapid: SpriteSource = null;
+    
+    [Property]
+    var ModUltra: SpriteSource = null;
+    
+    [Property]
+    var ModBurst: SpriteSource = null;
+    
+    [Property]
+    var VulcanCannon: SpriteSource = null;
+    
+    [Property]
+    var FlakGun: SpriteSource = null;
+    
+    [Property]
+    var ProtonBeam: SpriteSource = null;
+    
+    [Property]
+    var BioBlaster: SpriteSource = null;
+    
+    [Property]
+    var RailGun: SpriteSource = null;
+    
+    [Property]
+    var Origunni: SpriteSource = null;
+    
+    var SelectedItem: Integer = 0;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+        Zero.Connect(this.Owner, Events.MouseUp, this.OnMouseUp);
+        Console.WriteLine(this.DataCog.SavedData.PlayerShipNumber);
+        Console.WriteLine(this.DataCog.SavedData.PlayerGunID);
+        this.SelectedItem = this.Owner.RandomContext.DieRoll(10);
+        if(this.SelectedItem == 1)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModDamage;
+        }
+        if(this.SelectedItem == 2)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModRapid;
+        }
+        if(this.SelectedItem == 3)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModUltra;
+        }
+        if(this.SelectedItem == 4)
+        {
+            this.Owner.Sprite.SpriteSource = this.ModBurst;
+        }
+        if(this.SelectedItem == 5)
+        {
+            this.Owner.Sprite.SpriteSource = this.VulcanCannon;
+        }
+        if(this.SelectedItem == 6)
+        {
+            this.Owner.Sprite.SpriteSource = this.FlakGun;
+        }
+        if(this.SelectedItem == 7)
+        {
+            this.Owner.Sprite.SpriteSource = this.ProtonBeam;
+        }
+        if(this.SelectedItem == 8)
+        {
+            this.Owner.Sprite.SpriteSource = this.BioBlaster;
+        }
+        if(this.SelectedItem == 9)
+        {
+            this.Owner.Sprite.SpriteSource = this.RailGun;
+        }
+        if(this.SelectedItem == 10)
+        {
+            this.Owner.Sprite.SpriteSource = this.Origunni;
+        }
+    }
+    function OnMouseUp(event:ViewportMouseEvent)
+    {
+        if(this.SelectedItem >=1 && this.SelectedItem <5)
+        {
+            this.DataCog.SavedData.GunModID = this.SelectedItem;
+        }
+        else
+        {
+            this.DataCog.SavedData.BonusGunID = (this.SelectedItem - 4);
+        }
+
+        this.DataCog.SavedData.GunModID = this.SelectedItem;
+        this.DataCog.SavedData.PointsToSpend -= 150;
+        Zero.ObjectStore.Store ("Data", this.DataCog);
+        Console.WriteLine(this.DataCog.SavedData.PlayerShipNumber);
+        Console.WriteLine(this.DataCog.SavedData.PlayerGunID);
+        this.Space.LoadLevel (Level.Find("Round2"));
+    }
+}

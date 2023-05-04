@@ -1,0 +1,266 @@
+class Attack : ZilchComponent
+{
+    var Cooldown : Real = 0.20;
+    var TimeSinceLastSpawn : Real = 0.0;
+    
+    var Timer : Real = 0.0;
+    var PhaseOne : Boolean = true;
+    var PhaseTwo : Boolean = false;
+    var PhaseThree : Boolean = false;
+    
+    [Property]
+    var Target : CogPath = null;
+    
+    var Boss : Cog = null;
+    
+    var ShootDirection : Real3 = Real3 ();
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.Boss = this.Space.FindObjectByName ("Boss");
+    }
+    function CalculateDirection(event: UpdateEvent)
+    {
+        if (this.Target.Cog != null)
+        {
+        this.ShootDirection = this.Target.Cog.Transform.Translation - this.Owner.Transform.Translation;
+        this.ShootDirection = Math.Normalize(this.ShootDirection);
+        }
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        this. Timer += 1;
+        this. TimeSinceLastSpawn += event.Dt;
+    if (this.Boss.BossScript.BossType == 1)
+    {
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseOne)
+        {
+            this.Cooldown = 0.20;
+            var spawnPosition = this.Owner.Transform.Translation;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (0.2, 0, 0.2, 1);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletB.Sprite.Color = Real4 (1, 0, 0, 1);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletC.Sprite.Color = Real4 (1, 0, 0, 1);
+            createdBossBulletA.RigidBody.Velocity = Real3(0,-10,0);
+            createdBossBulletB.RigidBody.Velocity = Real3(3,-10,0);
+            createdBossBulletC.RigidBody.Velocity = Real3(-3,-10,0);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 250)
+            {
+                this.Timer = 0;
+                this.PhaseOne = false;
+                this.PhaseTwo = true;
+            }
+        }
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseTwo)
+        {
+            this.CalculateDirection(event);
+            this.Cooldown = 0.025;
+            var spawnPosition = this.Owner.Transform.Translation;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.RigidBody.Velocity = (this.ShootDirection*2);
+            createdBossBulletA.Sprite.Color = Real4 (0.2, 0, 0.2, 1);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 600)
+            {
+                this.Timer = 0;
+                this.PhaseTwo = false;
+                this.PhaseThree = true;
+            }
+        }
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseThree)
+        {
+            this.CalculateDirection(event);
+            this.Cooldown = 0.25;
+            var spawnPosition = this.Owner.Transform.Translation;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (0.2, 0, 0.2, 1);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletB.Sprite.Color = Real4 (0.2, 0.5, 1, 1);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletC.Sprite.Color = Real4 (0.2, 0, 0.2, 1);
+            var createdBossBulletD = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletD.Sprite.Color = Real4 (0.2, 0.5, 1, 1);
+            var createdBossBulletE = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletE.Sprite.Color = Real4 (0.2, 0, 0.2, 1);
+            createdBossBulletA.RigidBody.Velocity = (this.ShootDirection*3);
+            createdBossBulletB.RigidBody.Velocity = (this.ShootDirection*4);
+            createdBossBulletC.RigidBody.Velocity = (this.ShootDirection*5);
+            createdBossBulletD.RigidBody.Velocity = (this.ShootDirection*6);
+            createdBossBulletE.RigidBody.Velocity = (this.ShootDirection*7);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 100)
+            {
+                this.Timer = 0;
+                this.PhaseTwo = false;
+                this.PhaseOne = true;
+            }
+        }
+    }
+    if (this.Boss.BossScript.BossType == 2)
+        {
+        var spawnPosition = this.Owner.Transform.Translation;
+        var spawnPosition2 = this.Owner.Transform.Translation;
+        var spawnPosition3 = this.Owner.Transform.Translation;
+        var spawnPosition4 = this.Owner.Transform.Translation;
+        var spawnPosition5 = this.Owner.Transform.Translation;
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseOne)
+            {
+            this.Cooldown = 0.20;
+            spawnPosition2 += Real3 (0.25,0.25,0);
+            spawnPosition3 += Real3 (-0.25,0.25,0);
+            spawnPosition4 += Real3 (0.5,0.5,0);
+            spawnPosition5 += Real3 (-0.5,0.5,0);
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            createdBossBulletB.Sprite.Color = Real4 (0, 0.5, 0, 1);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition3);
+            createdBossBulletC.Sprite.Color = Real4 (0, 0.5, 0, 1);
+            var createdBossBulletD = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition4);
+            createdBossBulletD.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            var createdBossBulletE = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition5);
+            createdBossBulletE.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            createdBossBulletA.RigidBody.Velocity = Real3(0,-9,0);
+            createdBossBulletB.RigidBody.Velocity = Real3(2,-9,0);
+            createdBossBulletC.RigidBody.Velocity = Real3(-2,-9,0);
+            createdBossBulletD.RigidBody.Velocity = Real3(2,-9,0);
+            createdBossBulletE.RigidBody.Velocity = Real3(-2,-9,0);
+            this.TimeSinceLastSpawn = 0.0;
+                if (this.Timer >= 400)
+                {
+                    this.Timer = 0;
+                    this.PhaseOne = false;
+                    this.PhaseTwo = true;
+                }
+            }
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseTwo)
+            {
+            this.Owner.BossScript.PaceSpeed = 4;
+            this.Cooldown = 0.2;
+            spawnPosition2 += Real3 (0.25,0.25,0);
+            spawnPosition3 += Real3 (-0.25,0.25,0);
+            spawnPosition4 += Real3 (0.5,0.5,0);
+            spawnPosition5 += Real3 (-0.5,0.5,0);
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            createdBossBulletB.Sprite.Color = Real4 (0, 0.5, 0, 1);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition3);
+            createdBossBulletC.Sprite.Color = Real4 (0, 0.5, 0, 1);
+            var createdBossBulletD = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition4);
+            createdBossBulletD.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            var createdBossBulletE = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition5);
+            createdBossBulletE.Sprite.Color = Real4 (0, 0.75, 0, 1);
+            createdBossBulletA.RigidBody.Velocity = Real3(0,-10,0);
+            createdBossBulletB.RigidBody.Velocity = Real3(5,-7,0);
+            createdBossBulletC.RigidBody.Velocity = Real3(-5,-7,0);
+            createdBossBulletD.RigidBody.Velocity = Real3(10,-7,0);
+            createdBossBulletE.RigidBody.Velocity = Real3(-10,-7,0);
+            this.TimeSinceLastSpawn = 0.0;
+                if (this.Timer >= 225)
+                {
+                    this.Timer = 0;
+                    this.PhaseTwo = false;
+                    this.PhaseThree = true;
+                }
+            }
+        if (this.TimeSinceLastSpawn > this.Cooldown && this.PhaseThree)
+            {
+            this.CalculateDirection(event);
+            this.Owner.BossScript.PaceSpeed = 8;
+            this.Cooldown = 1;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (0, 0.90, 0, 1);
+            createdBossBulletA.RigidBody.Velocity = (this.ShootDirection*2.5);
+            createdBossBulletA.Transform.Scale = Real3 (2.75, 2.75, 1);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 350)
+            {
+                this.Timer = 0;
+                this.PhaseThree = false;
+                this.PhaseOne = true;
+            }
+        }
+    }
+        if (this.Boss.BossScript.BossType == 3)
+        {
+        var spawnPosition = this.Owner.Transform.Translation;
+        var spawnPosition2 = this.Owner.Transform.Translation;
+        var spawnPosition3 = this.Owner.Transform.Translation;
+        var spawnPosition4 = this.Owner.Transform.Translation;
+        var spawnPosition5 = this.Owner.Transform.Translation;
+            if(this.TimeSinceLastSpawn > this.Cooldown && this.PhaseOne)
+            {
+            this.Owner.BossScript.PaceSpeed = 7;
+            this.Cooldown = 0.225;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition2);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition3);
+            var createdBossBulletD = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition4);
+            var createdBossBulletE = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition5);
+            createdBossBulletA.RigidBody.Velocity = Real3(0,-2,0);
+            createdBossBulletA.Sprite.Color = Real4 (1, 0, 0, 1);
+            createdBossBulletB.RigidBody.Velocity = Real3(4,-2,0);
+            createdBossBulletB.Sprite.Color = Real4 (1, 0, 0, 1);
+            spawnPosition2 += Real3(0.5,2,0.0);
+            createdBossBulletC.RigidBody.Velocity = Real3(-4,-2,0);
+            createdBossBulletC.Sprite.Color = Real4 (1, 0, 0, 1);
+            spawnPosition3 += Real3(-0.5,2,0.0);
+            createdBossBulletD.RigidBody.Velocity = Real3(6,-2,0);
+            createdBossBulletD.Sprite.Color = Real4 (1, 0, 0, 1);
+            spawnPosition4 += Real3(0.75,1.25,0.0);
+            createdBossBulletE.RigidBody.Velocity = Real3(-6,-2,0);
+            createdBossBulletE.Sprite.Color = Real4 (1, 0, 0, 1);
+            spawnPosition5 += Real3(-0.75,1.25,0.0);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 350)
+            {
+                this.Timer = 0;
+                this.PhaseTwo = true;
+                this.PhaseOne = false;
+            }
+        }
+    }
+            if(this.TimeSinceLastSpawn > this.Cooldown && this.PhaseTwo)
+            {
+            this.CalculateDirection(event);
+            this.Cooldown = 0.10;
+            var spawnPosition = this.Owner.Transform.Translation;
+            var archetypeToSpawn = Archetype.BossBulletA;
+            var createdBossBulletA = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletA.Sprite.Color = Real4 (1, 0, 0, 1);
+            var createdBossBulletB = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletB.Sprite.Color = Real4 (1, 0.5, 0.5, 1);
+            var createdBossBulletC = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletC.Sprite.Color = Real4 (1, 0, 0, 1);
+            var createdBossBulletD = this.Space.CreateAtPosition(archetypeToSpawn, spawnPosition);
+            createdBossBulletD.Sprite.Color = Real4 (1, 0.5, 0.5, 1);
+            createdBossBulletA.RigidBody.Velocity = (this.ShootDirection*1);
+            createdBossBulletB.RigidBody.Velocity = (this.ShootDirection*1.5);
+            createdBossBulletC.RigidBody.Velocity = (this.ShootDirection*2);
+            createdBossBulletD.RigidBody.Velocity = (this.ShootDirection*2.5);
+            this.TimeSinceLastSpawn = 0.0;
+            if (this.Timer >= 150)
+            {
+                this.Timer = 0;
+                this.PhaseTwo = false;
+                this.PhaseOne = true;
+            }
+        }
+    }
+}
+
+
+

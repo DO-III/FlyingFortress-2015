@@ -1,0 +1,47 @@
+class ManageLineA : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+        this.Owner.SpriteText.Text = "Congratulations!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+        this.Owner.SpriteText.Text = "Nice work!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+        this.Owner.SpriteText.Text = "Nice job!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+        this.Owner.SpriteText.Text = "Wow!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+        this.Owner.SpriteText.Text = "Great work!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+        this.Owner.SpriteText.Text = "INCREDIBLE!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+        this.Owner.SpriteText.Text = "CONGLADURATION!!!1";
+        }
+        
+        if(Zero.Keyboard.KeyIsPressed(Keys.Q))
+        {
+            this.Space.LoadLevel (Level.Find("TitleScreen"));
+        }
+    }
+}

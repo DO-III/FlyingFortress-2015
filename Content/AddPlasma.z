@@ -1,0 +1,20 @@
+class AddPlasma : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("SavedData","Data", this.Space);
+        Zero.Connect(this.Owner, Events.MouseUp, this.OnMouseUp);
+    }
+    function OnMouseUp(event:ViewportMouseEvent)
+    {
+        this.DataCog.SavedData.PlayerShipNumber = 5;
+        this.DataCog.SavedData.PlayerGunID = 5;
+        this.DataCog.SavedData.BonusGunID = 0;
+        this.DataCog.SavedData.PointsToSpend = 0;
+        Zero.ObjectStore.Store ("Data", this.DataCog);
+        this.Space.LoadLevel (Level.Find("Round1"));
+    }
+}

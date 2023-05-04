@@ -1,0 +1,42 @@
+class ManageLineE : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+        this.Owner.SpriteText.Text = "Press Q to return to the main menu.";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+        this.Owner.SpriteText.Text = "Press Q to do it all again!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+        this.Owner.SpriteText.Text = "Press Q to render your entire quest moot!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+        this.Owner.SpriteText.Text = "Press Q to be polite and give someone else a turn. You must've been here for forever.";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+        this.Owner.SpriteText.Text = "Press Q to stave off dissatisfaction!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+        this.Owner.SpriteText.Text = "Before pressing Q, take a picture! Nobody's gonna believe you did it!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+        this.Owner.SpriteText.Text = "PRESS THE CUE KEY TO BACK MANE MINUTE";
+        }
+    }
+}

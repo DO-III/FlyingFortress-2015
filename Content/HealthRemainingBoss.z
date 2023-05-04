@@ -1,0 +1,26 @@
+class HealthRemainingBoss : ZilchComponent
+{
+    [Property]
+    var Boss : CogPath = null;
+    
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.Boss.Cog != null)
+        {
+        if (this.Boss.Cog.BossScript.Health <= 0)
+        {
+            this.Owner.SpriteText.Text = "Boss Health : X_X";
+        }
+        else
+        {
+            this.Owner.SpriteText.Text = "Boss Health : `this.Boss.Cog.BossScript.Health`";
+        }
+        }
+    }
+}

@@ -1,0 +1,42 @@
+class ManageLineC : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+        this.Owner.SpriteText.Text = "You completed the game in Old Reliable!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+        this.Owner.SpriteText.Text = "With Blade, too, no more!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+        this.Owner.SpriteText.Text = "You completed the game with Futura!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+        this.Owner.SpriteText.Text = "In Cricket 6, too!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+        this.Owner.SpriteText.Text = "You won with the Flashpoint M7!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+        this.Owner.SpriteText.Text = "The Paper Plane is very proud of you!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+        this.Owner.SpriteText.Text = "You have save world from tire annie in [[Classical]] plane";
+        }
+    }
+}

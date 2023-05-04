@@ -1,0 +1,42 @@
+class ManageLineD : ZilchComponent
+{
+    var DataCog: Cog = null;
+    
+    function Initialize(init : CogInitializer)
+    {
+        Zero.Connect(this.Space, Events.LogicUpdate, this.OnLogicUpdate);
+        this.DataCog = Zero.ObjectStore.RestoreOrArchetype("Data","SavedData", this.Space);
+    }
+
+    function OnLogicUpdate(event : UpdateEvent)
+    {
+        if (this.DataCog.SavedData.PlayerShipNumber == 1)
+        {
+        this.Owner.SpriteText.Text = "Now try again with some other ships!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 2)
+        {
+        this.Owner.SpriteText.Text = "Hopefully, the developer will make a full game to sell!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 3)
+        {
+        this.Owner.SpriteText.Text = "Too bad the game was supposed to be longer!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 4)
+        {
+        this.Owner.SpriteText.Text = "Sorry for the minimalist win screen!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 5)
+        {
+        this.Owner.SpriteText.Text = "Now go play something actually worthwhile!";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 6)
+        {
+        this.Owner.SpriteText.Text = "So, what else are you going to do with today?";
+        }
+        if (this.DataCog.SavedData.PlayerShipNumber == 7)
+        {
+        this.Owner.SpriteText.Text = "URE BSET PLAYER EVERE!";
+        }
+    }
+}

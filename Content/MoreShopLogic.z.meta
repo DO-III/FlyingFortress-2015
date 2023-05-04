@@ -1,0 +1,8 @@
+TextContent = 
+{
+	ZilchScriptBuilder = 
+	{
+		string Name = "MoreShopLogic",
+		uint64 ResourceId = 5734ec8a6361c2fa,
+	},
+},
